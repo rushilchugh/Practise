@@ -1,36 +1,35 @@
 __author__ = 'Rushil'
 
-adj_list = {
-    "S": ["A", "X"],
-    "A": ["S", "Z"],
-    "X": ["S", "D", "C"],
-    "Z": ["A"],
-    "D": ["X", "C", "F"],
-    "F": ["C", "V", "D"],
-    "C": ["X", "D", "F"],
-    "V": ["C", "F"],
-}
+from Code2.graphs import adj_list
 
-V = adj_list.keys()
-
-def DFS(adjl, V):                                       #V is the Vertex List
-
-    parent = {}
-
-    for S in V:                                         #Iterating for all Source Vertices in a set of Vertices
-        if S not in parent.keys():                      #If it hasn't yet been visited, Visit and Mark the parent as None
-            parent[S] = None
-            DFS_Visit(adjl, S)                                #Recursivley Visit all the Vertices from this source vertex
+parent = {}
+visited = []
 
 
-def DFS_Visit(adjl, S):
+def DFS(adj_list):
 
-    global parent
+    vertices = adj_list.keys()
 
-    for v in adjl[S]:
-        if v not in parent.keys():
-            parent[v] = S
-            DFS_Visit(adjl, v)
+    for v in vertices:
+
+        if v not in visited:
+            parent[v] = None
+            visited.append(v)
+            DFS_traverse(adj_list, v)
 
 
-DFS(adj_list, adj_list.keys())
+def DFS_traverse(adj_list, S):
+
+    neighbors = adj_list[S]
+
+    for u in neighbors:
+
+        if u not in visited:
+            parent[u] = S
+            visited.append(u)
+            DFS_traverse(adj_list, u)
+
+
+DFS(adj_list)
+
+print(parent)

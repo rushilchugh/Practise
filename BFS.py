@@ -1,23 +1,14 @@
 __author__ = 'Rushil'
 
-adj_list = {
-    "S": ["A", "X"],
-    "A": ["S", "Z"],
-    "X": ["S", "D", "C"],
-    "Z": ["A"],
-    "D": ["X", "C", "F"],
-    "F": ["C", "V", "D"],
-    "C": ["X", "D", "F"],
-    "V": ["C", "F"],
-}
+from Code2.graphs import adj_list
 
 
-def BFS(adjl, S):
+def BFS(adj_list, S):
 
-    level = {S: 0}                      #Defining Source Node Level
-    parent = {S: None}                  #Defining a Parent for each Node
+    parent = {S: None}
+    level = {S: 0}
 
-    i = 1                               #Defining Initial Levels
+    i = 1
 
     nodes_to_visit = [S]
 
@@ -25,22 +16,17 @@ def BFS(adjl, S):
         next_nodes = []
 
         for u in nodes_to_visit:
-            neighbors = adjl[u]
+            neighbors = adj_list[u]
 
             for v in neighbors:
-                if v not in level.keys():
-                    level[v] = i
+                if v not in parent.keys():
                     parent[v] = u
+                    level[v] = i
                     next_nodes.append(v)
 
         nodes_to_visit = next_nodes
         i += 1
 
-    return sorted(level.items(), key = lambda x: x[1]), parent
+    return parent, level
 
 print(BFS(adj_list, "S"))
-
-
-
-
-
